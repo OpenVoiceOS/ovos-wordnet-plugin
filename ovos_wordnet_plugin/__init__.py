@@ -832,6 +832,32 @@ class WordnetRetrievalEngine(RetrievalEngine):
             return None
         return self._translate(en_def, target=lang)
 
+    def get_definition(self, word: str, lang: str = "en") -> Optional[str]:
+        """Return the best definition for *word* in *lang*, translating if needed.
+
+        Tries noun, adjective, and verb synsets in order and returns the first
+        definition found.  For languages without native glosses the English
+        definition is translated via the configured translation plugin.
+
+        Args:
+            word: The word to define.
+            lang: BCP-47 language code (short or full).
+
+        Returns:
+            Definition string, or ``None`` when nothing is available.
+        """
+        short = lang.split("-")[0].lower()
+        wn_obj = _wordnet_for_lang(short)
+        if wn_obj is None:
+            return None
+        for pos in _ALL_POS:
+            synsets = wn_obj.synsets(word, pos=pos)
+            if synsets:
+                defn = self._get_definition(word, pos=pos, synset=synsets[0], lang=short)
+                if defn:
+                    return defn
+        return None
+
     def query(self, query: str, lang: Optional[str] = None,
               k: int = 15) -> List[Tuple[str, float]]:
         """Look up *query* in WordNet and return scored natural-language passages.
