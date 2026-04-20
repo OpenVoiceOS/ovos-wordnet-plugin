@@ -1,0 +1,3 @@
+{word} est un membre de {output_word}
+{output_word} est le tout auquel appartient {word}
+Un holonyme de {word} est {output_word}

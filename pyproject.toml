@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ovos-wordnet-plugin"
+dynamic = ["version"]
+description = "OVOS WordNet plugin — dictionary definitions and lexical relations"
+readme = "README.md"
+license = { text = "Apache-2.0" }
+requires-python = ">=3.10"
+dependencies = [
+    "ovos-utils>=0.7.0,<1.0.0",
+    "ovos-plugin-manager>=2.3.0a1,<3.0.0",
+    "wn>=0.9",
+    "pydantic",
+]
+
+[project.entry-points."opm.agents.retrieval"]
+ovos-wordnet-plugin = "ovos_wordnet_plugin:WordnetRetrievalEngine"
+
+[project.entry-points."opm.agents.toolbox"]
+ovos-wordnet-tool = "ovos_wordnet_plugin:WordnetToolbox"
+
+[tool.setuptools.dynamic]
+version = {attr = "ovos_wordnet_plugin.version.__version__"}

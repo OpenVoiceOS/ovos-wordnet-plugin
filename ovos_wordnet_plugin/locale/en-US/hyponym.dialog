@@ -1,0 +1,3 @@
+A type of {word} is {output_word}
+{output_word} is a kind of {word}
+A hyponym of {word} is {output_word}

@@ -1,0 +1,3 @@
+Des synonymes de {word} sont {output_word}
+{word} peut aussi se dire {output_word}
+Autres mots pour {word} : {output_word}
