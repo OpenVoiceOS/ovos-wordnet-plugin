@@ -23,6 +23,7 @@ dependencies = [
     # httpx itself is BSD-3-Clause. Pin below the 1.0 dev line to keep
     # resolution on a released, metadata-complete version.
     "httpx>=0.27,<1.0.dev0",
+    "simplematch",
 ]
 
 [project.entry-points."opm.agents.retrieval"]
