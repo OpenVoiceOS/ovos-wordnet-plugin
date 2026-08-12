@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.3a1](https://github.com/OpenVoiceOS/ovos-wordnet-plugin/tree/0.1.3a1) (2026-08-12)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-wordnet-plugin/compare/0.1.2a1...0.1.3a1)
+
+**Merged pull requests:**
+
+- fix: serialize wn sqlite access to stop threaded fan-out crashes [\#4](https://github.com/OpenVoiceOS/ovos-wordnet-plugin/pull/4) ([JarbasAl](https://github.com/JarbasAl))
+
 ## [0.1.2a1](https://github.com/OpenVoiceOS/ovos-wordnet-plugin/tree/0.1.2a1) (2026-08-12)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-wordnet-plugin/compare/0.1.1a1...0.1.2a1)
