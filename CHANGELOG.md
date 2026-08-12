@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.2a1](https://github.com/OpenVoiceOS/ovos-wordnet-plugin/tree/0.1.2a1) (2026-08-12)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-wordnet-plugin/compare/0.1.1a1...0.1.2a1)
+
+**Merged pull requests:**
+
+- fix: CI startup\_failure — use secrets: inherit for gh-automations calls [\#5](https://github.com/OpenVoiceOS/ovos-wordnet-plugin/pull/5) ([JarbasAl](https://github.com/JarbasAl))
+
 ## [0.1.1a1](https://github.com/OpenVoiceOS/ovos-wordnet-plugin/tree/0.1.1a1) (2026-08-01)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-wordnet-plugin/compare/0.1.0...0.1.1a1)
