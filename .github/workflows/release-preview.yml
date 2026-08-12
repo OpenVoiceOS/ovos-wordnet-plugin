@@ -8,9 +8,7 @@ on:
 jobs:
   release_preview:
     uses: OpenVoiceOS/gh-automations/.github/workflows/release-preview.yml@dev
-    secrets:
-      PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
-      MATRIX_TOKEN: ${{ secrets.MATRIX_TOKEN }}
+    secrets: inherit
     with:
       package_name: 'ovos_wordnet_plugin'
       version_file: 'ovos_wordnet_plugin/version.py'
