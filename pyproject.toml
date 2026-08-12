@@ -14,6 +14,15 @@ dependencies = [
     "ovos-plugin-manager>=2.3.0a1,<3.0.0",
     "wn>=0.9",
     "pydantic",
+    # wn depends on httpx with no upper bound; under this org's CI-wide
+    # UV_PRERELEASE=allow (needed for ovos-plugin-manager alphas), the
+    # resolver otherwise picks httpx==1.0.dev3 — a dev-only PyPI upload
+    # that ships with NO license metadata at all (license/license_expression
+    # both null, no License classifiers; confirmed via PyPI JSON API), which
+    # fails the license-check job as "Error", not a real GPL-class license.
+    # httpx itself is BSD-3-Clause. Pin below the 1.0 dev line to keep
+    # resolution on a released, metadata-complete version.
+    "httpx>=0.27,<1.0.dev0",
 ]
 
 [project.entry-points."opm.agents.retrieval"]
