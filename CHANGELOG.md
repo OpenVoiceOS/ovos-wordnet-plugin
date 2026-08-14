@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.4a1](https://github.com/OpenVoiceOS/ovos-wordnet-plugin/tree/0.1.4a1) (2026-08-14)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-wordnet-plugin/compare/0.1.3a1...0.1.4a1)
+
+**Merged pull requests:**
+
+- fix: WordnetToolbox constructor rejects the OPM ToolBox loader call [\#8](https://github.com/OpenVoiceOS/ovos-wordnet-plugin/pull/8) ([JarbasAl](https://github.com/JarbasAl))
+
 ## [0.1.3a1](https://github.com/OpenVoiceOS/ovos-wordnet-plugin/tree/0.1.3a1) (2026-08-12)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-wordnet-plugin/compare/0.1.2a1...0.1.3a1)
