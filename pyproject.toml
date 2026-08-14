@@ -30,7 +30,7 @@ dependencies = [
 ovos-wordnet-plugin = "ovos_wordnet_plugin:WordnetRetrievalEngine"
 
 [project.entry-points."opm.agents.toolbox"]
-ovos-wordnet-tool = "ovos_wordnet_plugin:WordnetToolbox"
+ovos-wordnet-tools = "ovos_wordnet_plugin:WordnetToolbox"
 
 [tool.setuptools.dynamic]
 version = {attr = "ovos_wordnet_plugin.version.__version__"}

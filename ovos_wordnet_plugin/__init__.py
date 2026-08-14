@@ -1184,8 +1184,8 @@ class WordnetToolbox(ToolBox):
 
     toolbox_id = "ovos-wordnet-tools"
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None) -> None:
-        super().__init__(toolbox_id=self.toolbox_id)
+    def __init__(self, config: Optional[Dict[str, Any]] = None, bus: Optional[Any] = None) -> None:
+        super().__init__(toolbox_id=self.toolbox_id, config=config, bus=bus)
 
     def define_word(self, args: DefineWordArgs) -> DefineWordOutput:
         """Look up definitions for *args.word*, optionally filtered by POS.
