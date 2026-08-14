@@ -8,9 +8,7 @@ on:
 jobs:
   opm_check:
     uses: OpenVoiceOS/gh-automations/.github/workflows/opm-check.yml@dev
-    secrets:
-      PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
-      MATRIX_TOKEN: ${{ secrets.MATRIX_TOKEN }}
+    secrets: inherit
     with:
       python_version: '3.11'
       plugin_type: 'auto'
