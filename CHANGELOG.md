@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.4a2](https://github.com/OpenVoiceOS/ovos-wordnet-plugin/tree/0.1.4a2) (2026-09-25)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-wordnet-plugin/compare/0.1.4a1...0.1.4a2)
+
+**Merged pull requests:**
+
+- translate\(kab\): update not\_found.dialog [\#10](https://github.com/OpenVoiceOS/ovos-wordnet-plugin/pull/10) ([ovos-localize[bot]](https://github.com/apps/ovos-localize))
+
 ## [0.1.4a1](https://github.com/OpenVoiceOS/ovos-wordnet-plugin/tree/0.1.4a1) (2026-08-14)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-wordnet-plugin/compare/0.1.3a1...0.1.4a1)
