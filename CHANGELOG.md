@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.4a3](https://github.com/OpenVoiceOS/ovos-wordnet-plugin/tree/0.1.4a3) (2026-09-26)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-wordnet-plugin/compare/0.1.4a2...0.1.4a3)
+
+**Merged pull requests:**
+
+- Configure Renovate [\#1](https://github.com/OpenVoiceOS/ovos-wordnet-plugin/pull/1) ([renovate[bot]](https://github.com/apps/renovate))
+
 ## [0.1.4a2](https://github.com/OpenVoiceOS/ovos-wordnet-plugin/tree/0.1.4a2) (2026-09-25)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-wordnet-plugin/compare/0.1.4a1...0.1.4a2)
