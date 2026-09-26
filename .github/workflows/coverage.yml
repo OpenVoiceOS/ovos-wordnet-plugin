@@ -8,12 +8,10 @@ on:
 jobs:
   coverage:
     uses: OpenVoiceOS/gh-automations/.github/workflows/coverage.yml@dev
-    secrets:
-      PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
-      MATRIX_TOKEN: ${{ secrets.MATRIX_TOKEN }}
+    secrets: inherit
     with:
       python_version: '3.11'
       coverage_source: 'ovos_wordnet_plugin'
-      test_path: 'test/'
+      test_path: 'tests/'
       install_extras: ''
       min_coverage: 0

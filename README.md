@@ -1,18 +1,18 @@
 # ovos-wordnet-plugin
 
-OVOS plugin that exposes [WordNet](https://wordnet.princeton.edu/) as a
-`RetrievalEngine` and a `ToolBox` with two agent tools.
+This OVOS plugin exposes [WordNet](https://wordnet.princeton.edu/) as a
+`RetrievalEngine` and as a `ToolBox` with two agent tools.
 
-Supports 30+ languages via the [`wn`](https://pypi.org/project/wn/) package
-with [Open English WordNet 2024](https://github.com/globalwordnet/english-wordnet),
-[ODENet](https://github.com/hdaSprachtechnologie/odenet) for German, and
-[OMW 1.4](https://omwn.org/) packs for other languages.  Lexicons are
-downloaded automatically on first use and cached locally.
+It supports 30+ languages through the [`wn`](https://pypi.org/project/wn/)
+package, using [Open English WordNet 2024](https://github.com/globalwordnet/english-wordnet)
+for English, [ODENet](https://github.com/hdaSprachtechnologie/odenet) for
+German, and [OMW 1.4](https://omwn.org/) packs for other languages. The
+plugin downloads lexicons on first use and caches them locally.
 
-For languages whose OMW pack has no native definitions (most non-EN/DE
-languages), the engine fetches the English OEWN definition and translates it
-into the target language using the OVOS translation plugin configured on the
-system (default: `ovos-translate-plugin-server`).
+Most non-English and non-German OMW packs have no native definitions. For
+these languages, the engine fetches the English OEWN definition and
+translates it into the target language. It uses the OVOS translation plugin
+configured on the system, `ovos-translate-plugin-server` by default.
 
 ---
 
@@ -22,7 +22,7 @@ system (default: `ovos-translate-plugin-server`).
 pip install ovos-wordnet-plugin
 ```
 
-The first query downloads the required WordNet lexicon (~30–60 MB for English).
+The first query downloads the required WordNet lexicon (about 30-60 MB for English).
 Subsequent calls are served from the local cache with no network access.
 
 ---
@@ -78,7 +78,7 @@ Returns definitions grouped by part of speech, plus usage examples.
 
 | Argument | Type | Default | Description |
 |---|---|---|---|
-| `word` | str | — | Word to define |
+| `word` | str | n/a | Word to define |
 | `lang` | str | `"en"` | BCP-47 language code |
 | `pos` | str | `"any"` | `"noun"`, `"verb"`, `"adjective"`, `"adverb"`, or `"any"` |
 
@@ -100,7 +100,7 @@ Returns synonyms, antonyms, hypernyms, hyponyms, and holonyms.
 
 | Argument | Type | Default | Description |
 |---|---|---|---|
-| `word` | str | — | Word to look up |
+| `word` | str | n/a | Word to look up |
 | `lang` | str | `"en"` | BCP-47 language code |
 | `pos` | str | `"noun"` | `"noun"`, `"verb"`, `"adjective"`, or `"adverb"` |
 
@@ -144,10 +144,11 @@ Wordnet.common_hypernyms("dog", "cat", lang="en")
 
 ## Supported Languages
 
-English uses OEWN 2024 (native definitions throughout).  German uses ODENet
-(native definitions for ~85% of synsets).  All other languages use their OMW
-1.4 pack, which provides lemmas but typically no glosses — definitions are
-translated from English via the configured OVOS translation plugin.
+English uses OEWN 2024, with native definitions throughout. German uses
+ODENet, with native definitions for about 85% of synsets. All other
+languages use their OMW 1.4 pack. These packs provide lemmas but typically
+no glosses, so the plugin translates definitions from English through the
+configured OVOS translation plugin.
 
 | BCP-47 | Language | Source |
 |--------|----------|--------|
@@ -194,6 +195,11 @@ pytest tests/
 
 ---
 
+## Related projects
+
+- [OpenVoiceOS/ovos-plugin-manager](https://github.com/OpenVoiceOS/ovos-plugin-manager) defines the `RetrievalEngine` interface this plugin implements.
+- [OpenVoiceOS/ovos-translate-plugin-server](https://github.com/OpenVoiceOS/ovos-translate-plugin-server) is the default translation plugin used for non-English definitions.
+
 ## License
 
-Apache 2.0 — see [LICENSE](LICENSE).
+Apache 2.0. See [LICENSE](LICENSE).
