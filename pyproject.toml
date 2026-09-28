@@ -32,5 +32,14 @@ ovos-wordnet-plugin = "ovos_wordnet_plugin:WordnetRetrievalEngine"
 [project.entry-points."opm.agents.toolbox"]
 ovos-wordnet-tools = "ovos_wordnet_plugin:WordnetToolbox"
 
+# The locale tree is data, not code, so nothing imports it and the build
+# backend does not find it. Without this the wheel ships no locale directory
+# at all, and _LOCALE_DIR = join(dirname(__file__), "locale") resolves to
+# nothing in an installed copy.
+[tool.setuptools.package-data]
+ovos_wordnet_plugin = [
+    "locale/*/*.intent",
+    "locale/*/*.dialog",
+]
 [tool.setuptools.dynamic]
 version = {attr = "ovos_wordnet_plugin.version.__version__"}
