@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.4a4](https://github.com/OpenVoiceOS/ovos-wordnet-plugin/tree/0.1.4a4) (2026-10-19)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-wordnet-plugin/compare/0.1.4a3...0.1.4a4)
+
+**Merged pull requests:**
+
+- test: assert the toolbox bus contract by its answers [\#15](https://github.com/OpenVoiceOS/ovos-wordnet-plugin/pull/15) ([openvoiceos-bot](https://github.com/openvoiceos-bot))
+
 ## [0.1.4a3](https://github.com/OpenVoiceOS/ovos-wordnet-plugin/tree/0.1.4a3) (2026-09-26)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-wordnet-plugin/compare/0.1.4a2...0.1.4a3)
