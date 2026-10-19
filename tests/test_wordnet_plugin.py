@@ -6,6 +6,10 @@ suite is structured so each public API surface gets its own TestCase.
 """
 import unittest
 
+import wn
+from ovos_bus_client.message import Message
+from ovos_utils.fakebus import FakeBus
+
 from ovos_wordnet_plugin import (
     ADJ,
     ADV,
@@ -614,20 +618,27 @@ class TestWordnetToolboxConstruction(unittest.TestCase):
         self.assertTrue(tb.tools)
 
     def test_constructor_forwards_bus_so_bind_actually_runs(self):
-        # Passing bus=None (as the loader does when it has no bus of its own)
-        # must not crash, and passing a real bus must reach ToolBox.bind(),
-        # which is only possible now that __init__ forwards it to super().
-        calls = []
+        # Passing a bus to __init__ must reach ToolBox.bind(), so the toolbox
+        # answers the OVOS-TOOLS-1 topics with real values: discover lists the
+        # tools of this toolbox, and a call runs the tool and returns its result.
+        bus = FakeBus()
+        tb = WordnetToolbox(config={}, bus=bus)
+        replies = []
+        bus.on("ovos.persona.tools.discover.response", lambda m: replies.append(m.data))
+        bus.on(f"ovos.persona.tools.{tb.toolbox_id}.call.response", lambda m: replies.append(m.data))
 
-        class FakeBus:
-            def on(self, topic, handler):
-                calls.append(topic)
+        bus.emit(Message("ovos.persona.tools.discover"))
+        bus.emit(Message(f"ovos.persona.tools.{tb.toolbox_id}.call",
+                         {"name": "define_word",
+                          "kwargs": {"word": "Hund", "lang": "de", "pos": "noun"}}))
 
-        tb = WordnetToolbox(config={}, bus=FakeBus())
-        self.assertEqual(sorted(calls), sorted([
-            "ovos.persona.tools.discover",
-            f"ovos.persona.tools.{tb.toolbox_id}.call",
-        ]))
+        discovered, called = replies
+        self.assertEqual(discovered["toolbox_id"], "ovos-wordnet-tools")
+        self.assertEqual({t["name"] for t in discovered["tools"]},
+                         {"define_word", "word_relations"})
+        # computed with the wn library, not with the plugin's Wordnet wrapper
+        expected = wn.synsets("Hund", pos="n", lang="de")[0].definition()
+        self.assertEqual(called["result"]["definitions"], [["noun", expected]])
 
 
 if __name__ == "__main__":
