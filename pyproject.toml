@@ -34,3 +34,9 @@ ovos-wordnet-tools = "ovos_wordnet_plugin:WordnetToolbox"
 
 [tool.setuptools.dynamic]
 version = {attr = "ovos_wordnet_plugin.version.__version__"}
+
+[tool.setuptools.packages.find]
+include = ["ovos_wordnet_plugin*"]
+
+[tool.setuptools.package-data]
+ovos_wordnet_plugin = ["locale/**/*"]

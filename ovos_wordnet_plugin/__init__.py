@@ -1019,9 +1019,6 @@ class WordnetRetrievalEngine(RetrievalEngine):
             if passage:
                 LOG.debug(f"WordnetSolver: intent={intent_type!r} word={word!r}")
                 return [(passage, 0.9)]
-            not_found = _render_dialog(lang, "not_found", word=word)
-            if not_found:
-                return [(not_found, 0.0)]
             return []
 
         results: List[Tuple[str, float]] = []

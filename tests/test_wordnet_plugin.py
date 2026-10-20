@@ -497,13 +497,15 @@ class TestWordnetRetrievalEngine(unittest.TestCase):
         _, score = results[0]
         self.assertAlmostEqual(score, 0.9)
 
-    def test_unknown_word_intent_returns_not_found(self):
+    def test_unknown_word_intent_returns_no_passage(self):
         results = self.engine.query("what is the definition of xyzzy_not_a_word",
                                     lang="en")
-        # Returns not_found dialog at score 0.0 or empty list
-        if results:
-            _, score = results[0]
-            self.assertAlmostEqual(score, 0.0)
+        self.assertEqual(results, [])
+
+    def test_off_domain_what_is_question_returns_no_passage(self):
+        results = self.engine.query("what is a good restaurant near me",
+                                    lang="en")
+        self.assertEqual(results, [])
 
     def test_polysemous_word_multiple_passages(self):
         results = self.engine.query("bank", lang="en")
