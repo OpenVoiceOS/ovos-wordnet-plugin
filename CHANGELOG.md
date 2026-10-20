@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.5a1](https://github.com/OpenVoiceOS/ovos-wordnet-plugin/tree/0.1.5a1) (2026-10-20)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-wordnet-plugin/compare/0.1.4a4...0.1.5a1)
+
+**Merged pull requests:**
+
+- fix: ship the locale files in the wheel [\#18](https://github.com/OpenVoiceOS/ovos-wordnet-plugin/pull/18) ([openvoiceos-bot](https://github.com/openvoiceos-bot))
+
 ## [0.1.4a4](https://github.com/OpenVoiceOS/ovos-wordnet-plugin/tree/0.1.4a4) (2026-10-19)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-wordnet-plugin/compare/0.1.4a3...0.1.4a4)
