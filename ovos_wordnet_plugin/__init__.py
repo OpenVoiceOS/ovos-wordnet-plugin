@@ -263,12 +263,20 @@ def _related_lemmas(synset: _wn.Synset, relation: str) -> List[str]:
 
 
 def _holonym_lemmas(synset: _wn.Synset) -> List[str]:
-    """Return member-holonym lemmas, trying OEWN relation name first."""
-    # OEWN uses "holo_member"; other lexicons may use "holonym".
-    lemmas = _related_lemmas(synset, "holo_member")
+    """Return member, part and substance holonym lemmas, in that order.
+
+    Lemmas of *synset* itself and repeated lemmas are left out.
+    """
+    # OEWN uses "holo_member", "holo_part" and "holo_substance"; other
+    # lexicons may use plain "holonym".
+    lemmas = []
+    for relation in ("holo_member", "holo_part", "holo_substance"):
+        lemmas.extend(_related_lemmas(synset, relation))
     if not lemmas:
         lemmas = _related_lemmas(synset, "holonym")
-    return lemmas
+    own = {lem.lower() for lem in _synset_lemmas(synset)}
+    unique = dict.fromkeys(lem for lem in lemmas if lem.lower() not in own)
+    return list(unique)
 
 
 def _antonym_lemmas(synset: _wn.Synset, wn_obj: _wn.Wordnet,
@@ -522,9 +530,10 @@ class Wordnet:
     @_synchronized
     def get_holonyms(word: str, pos: str = NOUN,
                      synset: Any = None, lang: str = "en") -> List[str]:
-        """Return member-holonym lemma names (wholes that *word* is a member of).
+        """Return holonym lemma names (wholes that *word* belongs to).
 
-        For example, *pack* is a holonym of *dog*.
+        Covers member, part and substance holonyms. For example, *pack* is a
+        holonym of *dog* and *wheeled vehicle* is a holonym of *wheel*.
 
         Args:
             word: The word to look up.
@@ -533,7 +542,7 @@ class Wordnet:
             lang: BCP-47 language code.
 
         Returns:
-            Flat list of lemma strings from all member holonyms.
+            Flat list of lemma strings from all holonyms.
         """
         wn_obj = _wordnet_for_lang(lang)
         if wn_obj is None:
@@ -1164,7 +1173,7 @@ class WordRelationsOutput(ToolOutput):
     )
     holonyms: List[str] = Field(
         default_factory=list,
-        description="Wholes that this word is a member of (e.g. 'pack' for 'dog').",
+        description="Wholes that this word belongs to, as a member, part or substance (e.g. 'wheeled vehicle' for 'wheel').",
     )
 
 

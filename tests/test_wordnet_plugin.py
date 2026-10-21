@@ -395,6 +395,31 @@ class TestGetHolonyms(unittest.TestCase):
     def test_unknown_word_empty(self):
         self.assertEqual(Wordnet.get_holonyms("xyzzy", lang="en"), [])
 
+    def test_part_holonym(self):
+        # OEWN lists "wheeled vehicle" as the whole that a wheel is a part of.
+        self.assertIn("wheeled vehicle", Wordnet.get_holonyms("wheel", lang="en"))
+
+    def test_substance_holonym(self):
+        # OEWN lists "quinine water" as a whole that quinine is a substance of.
+        self.assertIn("quinine water", Wordnet.get_holonyms("quinine", lang="en"))
+
+    def test_own_lemma_is_not_a_holonym(self):
+        # OEWN links the soy plant to the soy crop, which shares the lemma "soy".
+        self.assertNotIn("soy", Wordnet.get_holonyms("soy", lang="en"))
+        self.assertIn("Glycine max", Wordnet.get_holonyms("soy", lang="en"))
+
+    def test_repeated_holonym_is_listed_once(self):
+        # OEWN links belting to two synsets that both have the lemma "belt".
+        self.assertEqual(Wordnet.get_holonyms("belting", lang="en"), ["belt"])
+
+    def test_member_holonym_still_returned(self):
+        self.assertIn("genus Canis", Wordnet.get_holonyms("dog", lang="en"))
+
+    def test_holonym_question_is_answered_for_part_holonym(self):
+        results = WordnetRetrievalEngine().query("what is the holonym of wheel", lang="en")
+        self.assertEqual(len(results), 1)
+        self.assertIn("wheeled vehicle", results[0][0])
+
 
 # ---------------------------------------------------------------------------
 # Wordnet.common_hypernyms
