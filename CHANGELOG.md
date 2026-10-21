@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.6a1](https://github.com/OpenVoiceOS/ovos-wordnet-plugin/tree/0.1.6a1) (2026-10-21)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-wordnet-plugin/compare/0.1.5a1...0.1.6a1)
+
+**Merged pull requests:**
+
+- fix: include part and substance holonyms [\#20](https://github.com/OpenVoiceOS/ovos-wordnet-plugin/pull/20) ([openvoiceos-bot](https://github.com/openvoiceos-bot))
+
 ## [0.1.5a1](https://github.com/OpenVoiceOS/ovos-wordnet-plugin/tree/0.1.5a1) (2026-10-20)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-wordnet-plugin/compare/0.1.4a4...0.1.5a1)
