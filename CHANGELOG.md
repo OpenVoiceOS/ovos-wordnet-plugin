@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.7a1](https://github.com/OpenVoiceOS/ovos-wordnet-plugin/tree/0.1.7a1) (2026-10-22)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-wordnet-plugin/compare/0.1.6a1...0.1.7a1)
+
+**Merged pull requests:**
+
+- fix\(deps\): accept ovos-plugin-manager 3 [\#17](https://github.com/OpenVoiceOS/ovos-wordnet-plugin/pull/17) ([openvoiceos-bot](https://github.com/openvoiceos-bot))
+
 ## [0.1.6a1](https://github.com/OpenVoiceOS/ovos-wordnet-plugin/tree/0.1.6a1) (2026-10-21)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-wordnet-plugin/compare/0.1.5a1...0.1.6a1)
