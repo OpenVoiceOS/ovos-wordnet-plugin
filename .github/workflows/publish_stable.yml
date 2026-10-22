@@ -12,9 +12,7 @@ jobs:
   publish_stable:
     if: github.actor != 'github-actions[bot]'
     uses: OpenVoiceOS/gh-automations/.github/workflows/publish-stable.yml@dev
-    secrets:
-      PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
-      MATRIX_TOKEN: ${{ secrets.MATRIX_TOKEN }}
+    secrets: inherit
     with:
       version_file: 'ovos_wordnet_plugin/version.py'
       publish_pypi: true

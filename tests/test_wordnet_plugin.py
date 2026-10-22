@@ -6,6 +6,10 @@ suite is structured so each public API surface gets its own TestCase.
 """
 import unittest
 
+import wn
+from ovos_bus_client.message import Message
+from ovos_utils.fakebus import FakeBus
+
 from ovos_wordnet_plugin import (
     ADJ,
     ADV,
@@ -391,6 +395,31 @@ class TestGetHolonyms(unittest.TestCase):
     def test_unknown_word_empty(self):
         self.assertEqual(Wordnet.get_holonyms("xyzzy", lang="en"), [])
 
+    def test_part_holonym(self):
+        # OEWN lists "wheeled vehicle" as the whole that a wheel is a part of.
+        self.assertIn("wheeled vehicle", Wordnet.get_holonyms("wheel", lang="en"))
+
+    def test_substance_holonym(self):
+        # OEWN lists "quinine water" as a whole that quinine is a substance of.
+        self.assertIn("quinine water", Wordnet.get_holonyms("quinine", lang="en"))
+
+    def test_own_lemma_is_not_a_holonym(self):
+        # OEWN links the soy plant to the soy crop, which shares the lemma "soy".
+        self.assertNotIn("soy", Wordnet.get_holonyms("soy", lang="en"))
+        self.assertIn("Glycine max", Wordnet.get_holonyms("soy", lang="en"))
+
+    def test_repeated_holonym_is_listed_once(self):
+        # OEWN links belting to two synsets that both have the lemma "belt".
+        self.assertEqual(Wordnet.get_holonyms("belting", lang="en"), ["belt"])
+
+    def test_member_holonym_still_returned(self):
+        self.assertIn("genus Canis", Wordnet.get_holonyms("dog", lang="en"))
+
+    def test_holonym_question_is_answered_for_part_holonym(self):
+        results = WordnetRetrievalEngine().query("what is the holonym of wheel", lang="en")
+        self.assertEqual(len(results), 1)
+        self.assertIn("wheeled vehicle", results[0][0])
+
 
 # ---------------------------------------------------------------------------
 # Wordnet.common_hypernyms
@@ -493,13 +522,15 @@ class TestWordnetRetrievalEngine(unittest.TestCase):
         _, score = results[0]
         self.assertAlmostEqual(score, 0.9)
 
-    def test_unknown_word_intent_returns_not_found(self):
+    def test_unknown_word_intent_returns_no_passage(self):
         results = self.engine.query("what is the definition of xyzzy_not_a_word",
                                     lang="en")
-        # Returns not_found dialog at score 0.0 or empty list
-        if results:
-            _, score = results[0]
-            self.assertAlmostEqual(score, 0.0)
+        self.assertEqual(results, [])
+
+    def test_off_domain_what_is_question_returns_no_passage(self):
+        results = self.engine.query("what is a good restaurant near me",
+                                    lang="en")
+        self.assertEqual(results, [])
 
     def test_polysemous_word_multiple_passages(self):
         results = self.engine.query("bank", lang="en")
@@ -596,6 +627,45 @@ class TestWordRelations(unittest.TestCase):
         self.assertEqual(len(tools), 2)
         names = {t.name for t in tools}
         self.assertEqual(names, {"define_word", "word_relations"})
+
+
+# ---------------------------------------------------------------------------
+# WordnetToolbox — constructor contract
+# ---------------------------------------------------------------------------
+
+class TestWordnetToolboxConstruction(unittest.TestCase):
+
+    def test_constructs_the_way_the_persona_server_loader_does(self):
+        # ovos_persona_server.tools._load_toolboxes calls cls(config=cfg, bus=bus).
+        # A plugin whose __init__ does not accept bus raises a TypeError there
+        # and the loader only logs a warning, so the toolbox silently vanishes.
+        cfg = {"some": "config"}
+        tb = WordnetToolbox(config=cfg, bus=None)
+        self.assertEqual(tb.config, cfg)
+        self.assertTrue(tb.tools)
+
+    def test_constructor_forwards_bus_so_bind_actually_runs(self):
+        # Passing a bus to __init__ must reach ToolBox.bind(), so the toolbox
+        # answers the OVOS-TOOLS-1 topics with real values: discover lists the
+        # tools of this toolbox, and a call runs the tool and returns its result.
+        bus = FakeBus()
+        tb = WordnetToolbox(config={}, bus=bus)
+        replies = []
+        bus.on("ovos.persona.tools.discover.response", lambda m: replies.append(m.data))
+        bus.on(f"ovos.persona.tools.{tb.toolbox_id}.call.response", lambda m: replies.append(m.data))
+
+        bus.emit(Message("ovos.persona.tools.discover"))
+        bus.emit(Message(f"ovos.persona.tools.{tb.toolbox_id}.call",
+                         {"name": "define_word",
+                          "kwargs": {"word": "Hund", "lang": "de", "pos": "noun"}}))
+
+        discovered, called = replies
+        self.assertEqual(discovered["toolbox_id"], "ovos-wordnet-tools")
+        self.assertEqual({t["name"] for t in discovered["tools"]},
+                         {"define_word", "word_relations"})
+        # computed with the wn library, not with the plugin's Wordnet wrapper
+        expected = wn.synsets("Hund", pos="n", lang="de")[0].definition()
+        self.assertEqual(called["result"]["definitions"], [["noun", expected]])
 
 
 if __name__ == "__main__":
